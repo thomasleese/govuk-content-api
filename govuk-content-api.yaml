@@ -8,7 +8,7 @@ info:
 schemes:
   - https
 host: gov.uk
-basePath: /api/content
+basePath: /api
 
 paths:
   /{path}:
