@@ -1,0 +1,200 @@
+swagger: '2.0'
+
+info:
+  version: 0.1.0
+  title: GOV.UK Content API
+  description: An API for accessing the content available on GOV.UK.
+
+schemes:
+  - https
+host: gov.uk
+basePath: /api/content
+
+paths:
+  /{path}:
+    get:
+      summary: Get the content.
+      description: Returns the content at a path.
+      parameters:
+        - name: path
+          in: path
+          required: true
+          description: The path of the content
+          type: string
+        - name: date
+          in: query
+          required: true
+          description: The date at which to access the conent, defaults to right now.
+          type: string
+          format: date-time
+      responses:
+        200:
+          description: A resource
+          schema:
+            $ref: '#/definitions/Path'
+
+definitions:
+  Path:
+    required:
+      - path
+      - resource
+      - start_date
+      - end_date
+    properties:
+      path:
+        type: string
+      resource:
+        $ref: '#/definitions/Resource'
+      start_date:
+        type: string
+        format: date-time
+      end_date:
+        type: string
+        format: date-time
+
+  Resource:
+    properties:
+      edition:
+        $ref: '#/definitions/Edition'
+      redirect:
+        $ref: '#/definitions/Redirect'
+      gone:
+        $ref: '#/definitions/Gone'
+
+  Document:
+    required:
+      - content_id
+      - locale
+      - schema_name
+      - document_type
+      - document_supertypes
+      - first_published_at
+    properties:
+      content_id:
+        type: string
+      locale:
+        type: string
+      schema_name:
+        type: string
+      document_type:
+        type: string
+      document_supertypes:
+        $ref: '#/definitions/DocumentSupertypes'
+      first_published_at:
+        type: string
+        format: date-time
+  DocumentSupertypes:
+    required:
+      - email
+      - government
+      - navigation
+      - user_journey
+    properties:
+      email:
+        type: string
+      government:
+        type: string
+      navigation:
+        type: string
+      user_journey:
+        type: string
+  AccessLimited:
+    required:
+      - users
+      - auth_bypass_ids
+    properties:
+      users:
+        type: array
+        items:
+          type: integer
+          format: int64
+      auth_bypass_ids:
+        type: array
+        items:
+          type: integer
+          format: int64
+  Edition:
+    required:
+      - id
+      - document
+      - title
+      - description
+      - need_ids
+      - public_updated_at
+      - details
+      - publishing_app
+      - rendering_app
+      - links
+      - expanded_links
+      - access_limited
+      - phase
+      - analytics_identifier
+      - payload_version
+      - request_ids
+    properties:
+      id:
+        type: integer
+      document:
+        $ref: '#/definitions/Document'
+      title:
+        type: string
+      description:
+        type: string
+      need_ids:
+        type: array
+        items:
+          type: integer
+      public_updated_at:
+        type: string
+        format: date-time
+      details:
+        additionalProperties:
+          type: string
+      publishing_app:
+        type: string
+      rendering_app:
+        type: string
+      links:
+        additionalProperties:
+          type: string
+      expanded_links:
+        additionalProperties:
+          type: string
+      access_limited:
+        $ref: '#/definitions/AccessLimited'
+      phase:
+        type: string
+      analytics_identifier:
+        type: string
+      payload_version:
+        type: integer
+      request_ids:
+        $ref: '#/definitions/EditionRequestIds'
+  EditionRequestIds:
+    required:
+      - publishing
+    properties:
+      publishing:
+        type: string
+  Redirect:
+    required:
+      - target
+    properties:
+      target:
+        type: string
+  WithdrawnNotice:
+    required:
+      - explanation
+      - date
+    properties:
+      explanation:
+        type: string
+      date:
+        type: string
+        format: date-time
+  Gone:
+    required:
+      - withdrawn_notice
+    properties:
+      withdrawn_notice:
+        $ref: '#/definitions/WithdrawnNotice'
