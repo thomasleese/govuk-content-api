@@ -259,8 +259,8 @@ definitions:
         $ref: '#/definitions/Redirect'
       gone:
         $ref: '#/definitions/Gone'
-      application:
-        $ref: '#/definitions/Application'
+      # application:
+      #   $ref: '#/definitions/Application'
 
   Document:
     required:
