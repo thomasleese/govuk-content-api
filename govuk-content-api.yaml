@@ -8,10 +8,10 @@ info:
 schemes:
   - https
 host: gov.uk
-basePath: /api
+basePath: /api/content
 
 paths:
-  /content/{id}:
+  /{id}:
     get:
       summary: Get a piece of content by ID.
       description: Returns a single piece of content for an ID.
@@ -29,7 +29,7 @@ paths:
         404:
           description: No content with the ID specified.
 
-  /content/{base_path}:
+  '{base_path}':
     get:
       summary: Get a piece of content by base path.
       description: Returns a single piece of content for a base path.
