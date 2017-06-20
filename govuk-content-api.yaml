@@ -93,25 +93,37 @@ paths:
         404:
           description: No document with the content ID and locale specified.
 
-  /edition/{id}:
+  /document/{content_id}/{locale}/editions:
     get:
-      summary: Get an edition by ID.
-      description: Returns a single edition for an ID.
+      summary: Get all the editions by content ID and locale.
+      description: Returns a list of editions for a content ID and locale.
       parameters:
-        - name: id
+        - name: content_id
           in: path
           required: true
-          description: ID of the edition to return.
-          type: integer
+          description: Content ID of the document to return the edition for.
+          type: string
+        - name: locale
+          in: path
+          required: true
+          description: Locale of the document to return the edition for.
+          type: string
       responses:
         200:
           description: Successful operation.
           schema:
-            $ref: '#/definitions/Edition'
+            type: object
+            required:
+              - editions
+            properties:
+              editions:
+                type: array
+                items:
+                  $ref: '#/definitions/Edition'
         404:
-          description: No edition with the ID specified.
+          description: No edition with the content ID, locale and version specified.
 
-  /edition/{content_id}/{locale}/{version}:
+  /document/{content_id}/{locale}/editions/{version}:
     get:
       summary: Get an edition by content ID, locale and version.
       description: Returns a single edition for a content ID, locale or version.
@@ -138,6 +150,24 @@ paths:
             $ref: '#/definitions/Edition'
         404:
           description: No edition with the content ID, locale and version specified.
+
+  /edition/{id}:
+    get:
+      summary: Get an edition by ID.
+      description: Returns a single edition for an ID.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID of the edition to return.
+          type: integer
+      responses:
+        200:
+          description: Successful operation.
+          schema:
+            $ref: '#/definitions/Edition'
+        404:
+          description: No edition with the ID specified.
 
   /redirect/{id}:
     get:
