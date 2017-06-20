@@ -358,11 +358,11 @@ definitions:
   Redirect:
     required:
       - id
-      - target
+      - destination
     properties:
       id:
         type: integer
-      target:
+      destination:
         type: string
 
   Gone:
