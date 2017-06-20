@@ -11,12 +11,30 @@ host: gov.uk
 basePath: /api
 
 paths:
-  /content/{path}:
+  /content/{id}:
     get:
-      summary: Get a piece of content.
-      description: Returns a single piece of content.
+      summary: Get a piece of content by ID.
+      description: Returns a single piece of content for an ID.
       parameters:
-        - name: path
+        - name: id
+          in: path
+          required: true
+          description: ID of the piece of content to return.
+          type: integer
+      responses:
+        200:
+          description: Successful operation.
+          schema:
+            $ref: '#/definitions/Content'
+        404:
+          description: No content with the ID specified.
+
+  /content/{base_path}:
+    get:
+      summary: Get a piece of content by base path.
+      description: Returns a single piece of content for a base path.
+      parameters:
+        - name: base_path
           in: path
           required: true
           description: Path of the piece of content to return.
@@ -196,12 +214,15 @@ paths:
 definitions:
   Content:
     required:
+      - id
       - base_path
       - routes
       - resource
       - start_date
       - end_date
     properties:
+      id:
+        type: integer
       base_path:
         type: string
       routes:
