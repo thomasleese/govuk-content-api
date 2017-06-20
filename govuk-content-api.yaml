@@ -10,17 +10,33 @@ schemes:
 host: gov.uk
 basePath: /api/content
 
+parameters:
+  id:
+    in: path
+    name: id
+    required: true
+    description: ID of the thing to return.
+    type: integer
+  content_id:
+    in: path
+    name: content_id
+    required: true
+    type: string
+    description: Content ID of the document.
+  locale:
+    in: path
+    name: locale
+    required: true
+    type: string
+    description: Locale of the document.
+
 paths:
   /{id}:
     get:
       summary: Get a piece of content by ID.
       description: Returns a single piece of content for an ID.
       parameters:
-        - name: id
-          in: path
-          required: true
-          description: ID of the piece of content to return.
-          type: integer
+        - $ref: '#/parameters/id'
       responses:
         200:
           description: Successful operation.
@@ -57,11 +73,7 @@ paths:
       summary: Get a document by ID.
       description: Returns a single document.
       parameters:
-        - name: id
-          in: path
-          required: true
-          description: ID of the document to return
-          type: integer
+        - $ref: '#/parameters/id'
       responses:
         200:
           description: Successful operation.
@@ -70,21 +82,51 @@ paths:
         404:
           description: No document with the ID specified.
 
+  /document/{id}/editions:
+    get:
+      summary: Get all the editions by document ID.
+      description: Returns a list of editions for a document ID.
+      parameters:
+        - $ref: '#/parameters/id'
+      responses:
+        200:
+          description: Successful operation.
+          schema:
+            type: object
+            required:
+              - editions
+            properties:
+              editions:
+                type: array
+                items:
+                  $ref: '#/definitions/Edition'
+
+  /document/{id}/editions/{version}:
+    get:
+      summary: Get an edition by document ID and version.
+      description: Returns a single edition for a document ID and version.
+      parameters:
+        - $ref: '#/parameters/id'
+        - name: version
+          in: path
+          required: true
+          description: Version of the edition to return.
+          type: integer
+      responses:
+        200:
+          description: Successful operation.
+          schema:
+            $ref: '#/definitions/Edition'
+        404:
+          description: No edition with the document ID and version specified.
+
   /document/{content_id}/{locale}:
     get:
       summary: Get a document by content ID and locale.
       description: Returns a single document for a content ID and locale.
       parameters:
-        - name: content_id
-          in: path
-          required: true
-          description: Content ID of the document to return.
-          type: string
-        - name: locale
-          in: path
-          required: true
-          description: Locale of the document to return.
-          type: string
+        - $ref: '#/parameters/content_id'
+        - $ref: '#/parameters/locale'
       responses:
         200:
           description: Successful operation.
@@ -98,16 +140,8 @@ paths:
       summary: Get all the editions by content ID and locale.
       description: Returns a list of editions for a content ID and locale.
       parameters:
-        - name: content_id
-          in: path
-          required: true
-          description: Content ID of the document to return the edition for.
-          type: string
-        - name: locale
-          in: path
-          required: true
-          description: Locale of the document to return the edition for.
-          type: string
+        - $ref: '#/parameters/content_id'
+        - $ref: '#/parameters/locale'
       responses:
         200:
           description: Successful operation.
@@ -120,24 +154,14 @@ paths:
                 type: array
                 items:
                   $ref: '#/definitions/Edition'
-        404:
-          description: No edition with the content ID, locale and version specified.
 
   /document/{content_id}/{locale}/editions/{version}:
     get:
       summary: Get an edition by content ID, locale and version.
-      description: Returns a single edition for a content ID, locale or version.
+      description: Returns a single edition for a content ID, locale and version.
       parameters:
-        - name: content_id
-          in: path
-          required: true
-          description: Content ID of the document to return the edition for.
-          type: string
-        - name: locale
-          in: path
-          required: true
-          description: Locale of the document to return the edition for.
-          type: string
+        - $ref: '#/parameters/content_id'
+        - $ref: '#/parameters/locale'
         - name: version
           in: path
           required: true
@@ -156,11 +180,7 @@ paths:
       summary: Get an edition by ID.
       description: Returns a single edition for an ID.
       parameters:
-        - name: id
-          in: path
-          required: true
-          description: ID of the edition to return.
-          type: integer
+        - $ref: '#/parameters/id'
       responses:
         200:
           description: Successful operation.
@@ -174,11 +194,7 @@ paths:
       summary: Get a redirect by ID.
       description: Returns a single redirect for an ID.
       parameters:
-        - name: id
-          in: id
-          required: true
-          description: ID of the redirect to return.
-          type: integer
+        - $ref: '#/parameters/id'
       responses:
         200:
           description: Successful operation.
@@ -192,11 +208,7 @@ paths:
       summary: Get a gone by ID.
       description: Returns a single gone for an ID.
       parameters:
-        - name: id
-          in: id
-          required: true
-          description: ID of the gone to return.
-          type: integer
+        - $ref: '#/parameters/id'
       responses:
         200:
           description: Successful operation.
