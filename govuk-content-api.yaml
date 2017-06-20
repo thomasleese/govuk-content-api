@@ -157,41 +157,41 @@ paths:
         404:
           description: No gone with the ID specified.
 
-  /application/{id}:
-    get:
-      summary: Get an application by ID.
-      description: Returns a single application for an ID.
-      parameters:
-        - name: id
-          in: path
-          required: true
-          description: ID of the application to return.
-          type: integer
-      responses:
-        200:
-          description: Successful operation.
-          schema:
-            $ref: '#/definitions/Application'
-        404:
-          description: No application with the ID specified.
-
-  /application/{name}:
-    get:
-      summary: Get an application by name.
-      description: Returns a single application for a name.
-      parameters:
-        - name: name
-          in: path
-          required: true
-          description: Name of the application to return.
-          type: string
-      responses:
-        200:
-          description: Successful operation.
-          schema:
-            $ref: '#/definitions/Application'
-        404:
-          description: No application with the name specified.
+  # /application/{id}:
+  #   get:
+  #     summary: Get an application by ID.
+  #     description: Returns a single application for an ID.
+  #     parameters:
+  #       - name: id
+  #         in: path
+  #         required: true
+  #         description: ID of the application to return.
+  #         type: integer
+  #     responses:
+  #       200:
+  #         description: Successful operation.
+  #         schema:
+  #           $ref: '#/definitions/Application'
+  #       404:
+  #         description: No application with the ID specified.
+  #
+  # /application/{name}:
+  #   get:
+  #     summary: Get an application by name.
+  #     description: Returns a single application for a name.
+  #     parameters:
+  #       - name: name
+  #         in: path
+  #         required: true
+  #         description: Name of the application to return.
+  #         type: string
+  #     responses:
+  #       200:
+  #         description: Successful operation.
+  #         schema:
+  #           $ref: '#/definitions/Application'
+  #       404:
+  #         description: No application with the name specified.
 
 definitions:
   Content:
@@ -380,12 +380,12 @@ definitions:
             type: string
             format: date-time
 
-  Application:
-    required:
-      - id
-      - name
-    properties:
-      id:
-        type: integer
-      name:
-        type: string
+  # Application:
+  #   required:
+  #     - id
+  #     - name
+  #   properties:
+  #     id:
+  #       type: integer
+  #     name:
+  #       type: string
