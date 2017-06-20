@@ -11,27 +11,187 @@ host: gov.uk
 basePath: /api
 
 paths:
-  /{path}:
+  /content/{path}:
     get:
-      summary: Get the content.
-      description: Returns the content at a path.
+      summary: Get a piece of content.
+      description: Returns a single piece of content.
       parameters:
         - name: path
           in: path
           required: true
-          description: The path of the content
+          description: Path of the piece of content to return.
           type: string
         - name: date
           in: query
-          required: true
-          description: The date at which to access the conent, defaults to right now.
+          description: Date at which to access the conent, defaults to right now.
           type: string
           format: date-time
       responses:
         200:
-          description: A resource
+          description: Successful operation.
           schema:
-            $ref: '#/definitions/Path'
+            $ref: '#/definitions/Content'
+        404:
+          description: No content at the path specified.
+
+  /document/{id}:
+    get:
+      summary: Get a document by ID.
+      description: Returns a single document.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID of the document to return
+          type: integer
+      responses:
+        200:
+          description: Successful operation.
+          schema:
+            $ref: '#/definitions/Document'
+        404:
+          description: No document with the ID specified.
+
+  /document/{content_id}/{locale}:
+    get:
+      summary: Get a document by content ID and locale.
+      description: Returns a single document for a content ID and locale.
+      parameters:
+        - name: content_id
+          in: path
+          required: true
+          description: Content ID of the document to return.
+          type: string
+        - name: locale
+          in: path
+          required: true
+          description: Locale of the document to return.
+          type: string
+      responses:
+        200:
+          description: Successful operation.
+          schema:
+            $ref: '#/definitions/Document'
+        404:
+          description: No document with the content ID and locale specified.
+
+  /edition/{id}:
+    get:
+      summary: Get an edition by ID.
+      description: Returns a single edition for an ID.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID of the edition to return.
+          type: integer
+      responses:
+        200:
+          description: Successful operation.
+          schema:
+            $ref: '#/definitions/Edition'
+        404:
+          description: No edition with the ID specified.
+
+  /edition/{content_id}/{locale}/{version}:
+    get:
+      summary: Get an edition by content ID, locale and version.
+      description: Returns a single edition for a content ID, locale or version.
+      parameters:
+        - name: content_id
+          in: path
+          required: true
+          description: Content ID of the document to return the edition for.
+          type: string
+        - name: locale
+          in: path
+          required: true
+          description: Locale of the document to return the edition for.
+          type: string
+        - name: version
+          in: path
+          required: true
+          description: Version of the edition to return.
+          type: integer
+      responses:
+        200:
+          description: Successful operation.
+          schema:
+            $ref: '#/definitions/Edition'
+        404:
+          description: No edition with the content ID, locale and version specified.
+
+  /redirect/{id}:
+    get:
+      summary: Get a redirect by ID.
+      description: Returns a single redirect for an ID.
+      parameters:
+        - name: id
+          in: id
+          required: true
+          description: ID of the redirect to return.
+          type: integer
+      responses:
+        200:
+          description: Successful operation.
+          schema:
+            $ref: '#/definitions/Redirect'
+        404:
+          description: No redirect with the ID specified.
+
+  /gone/{id}:
+    get:
+      summary: Get a gone by ID.
+      description: Returns a single gone for an ID.
+      parameters:
+        - name: id
+          in: id
+          required: true
+          description: ID of the gone to return.
+          type: integer
+      responses:
+        200:
+          description: Successful operation.
+          schema:
+            $ref: '#/definitions/Gone'
+        404:
+          description: No gone with the ID specified.
+
+  /application/{id}:
+    get:
+      summary: Get an application by ID.
+      description: Returns a single application for an ID.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID of the application to return.
+          type: integer
+      responses:
+        200:
+          description: Successful operation.
+          schema:
+            $ref: '#/definitions/Application'
+        404:
+          description: No application with the ID specified.
+
+  /application/{name}:
+    get:
+      summary: Get an application by name.
+      description: Returns a single application for a name.
+      parameters:
+        - name: name
+          in: path
+          required: true
+          description: Name of the application to return.
+          type: string
+      responses:
+        200:
+          description: Successful operation.
+          schema:
+            $ref: '#/definitions/Application'
+        404:
+          description: No application with the name specified.
 
 definitions:
   Path:
