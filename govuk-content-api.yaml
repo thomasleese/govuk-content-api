@@ -194,15 +194,20 @@ paths:
           description: No application with the name specified.
 
 definitions:
-  Path:
+  Content:
     required:
-      - path
+      - base_path
+      - routes
       - resource
       - start_date
       - end_date
     properties:
-      path:
+      base_path:
         type: string
+      routes:
+        type: array
+        items:
+          $ref: '#/definitions/Route'
       resource:
         $ref: '#/definitions/Resource'
       start_date:
@@ -212,6 +217,19 @@ definitions:
         type: string
         format: date-time
 
+  Route:
+    required:
+      - path
+      - type
+    properties:
+      path:
+        type: string
+      type:
+        type: string
+        enum:
+          - prefix
+          - exact
+
   Resource:
     properties:
       edition:
@@ -220,9 +238,12 @@ definitions:
         $ref: '#/definitions/Redirect'
       gone:
         $ref: '#/definitions/Gone'
+      application:
+        $ref: '#/definitions/Application'
 
   Document:
     required:
+      - id
       - content_id
       - locale
       - schema_name
@@ -230,49 +251,35 @@ definitions:
       - document_supertypes
       - first_published_at
     properties:
+      id:
+        type: integer
       content_id:
         type: string
       locale:
         type: string
       schema_name:
         type: string
-      document_type:
+      type:
         type: string
-      document_supertypes:
-        $ref: '#/definitions/DocumentSupertypes'
+      supertypes:
+        required:
+          - email
+          - government
+          - navigation
+          - user_journey
+        properties:
+          email:
+            type: string
+          government:
+            type: string
+          navigation:
+            type: string
+          user_journey:
+            type: string
       first_published_at:
         type: string
         format: date-time
-  DocumentSupertypes:
-    required:
-      - email
-      - government
-      - navigation
-      - user_journey
-    properties:
-      email:
-        type: string
-      government:
-        type: string
-      navigation:
-        type: string
-      user_journey:
-        type: string
-  AccessLimited:
-    required:
-      - users
-      - auth_bypass_ids
-    properties:
-      users:
-        type: array
-        items:
-          type: integer
-          format: int64
-      auth_bypass_ids:
-        type: array
-        items:
-          type: integer
-          format: int64
+
   Edition:
     required:
       - id
@@ -321,7 +328,20 @@ definitions:
         additionalProperties:
           type: string
       access_limited:
-        $ref: '#/definitions/AccessLimited'
+        required:
+          - users
+          - auth_bypass_ids
+        properties:
+          users:
+            type: array
+            items:
+              type: integer
+              format: int64
+          auth_bypass_ids:
+            type: array
+            items:
+              type: integer
+              format: int64
       phase:
         type: string
       analytics_identifier:
@@ -329,32 +349,43 @@ definitions:
       payload_version:
         type: integer
       request_ids:
-        $ref: '#/definitions/EditionRequestIds'
-  EditionRequestIds:
-    required:
-      - publishing
-    properties:
-      publishing:
-        type: string
+        required:
+          - publishing
+        properties:
+          publishing:
+            type: string
+
   Redirect:
     required:
+      - id
       - target
     properties:
+      id:
+        type: integer
       target:
         type: string
-  WithdrawnNotice:
-    required:
-      - explanation
-      - date
-    properties:
-      explanation:
-        type: string
-      date:
-        type: string
-        format: date-time
+
   Gone:
     required:
       - withdrawn_notice
     properties:
       withdrawn_notice:
-        $ref: '#/definitions/WithdrawnNotice'
+        required:
+          - explanation
+          - date
+        properties:
+          explanation:
+            type: string
+          date:
+            type: string
+            format: date-time
+
+  Application:
+    required:
+      - id
+      - name
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
