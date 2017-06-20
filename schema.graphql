@@ -1,0 +1,98 @@
+# Note this file is work in progress and definitely not complete.
+
+type Path {
+  path: String!
+  resource: Resource!
+}
+
+union Resource = Document | Redirect | Gone
+
+enum SchemaName {
+  ...
+}
+
+enum DocumentType {
+  ...
+}
+
+enum RenderingApp {
+  ...
+}
+
+enum PublishingApp {
+  ...
+}
+
+scalar DateTime
+scalar JSON
+
+type DocumentSupertypes {
+  email: String!
+  government: String!
+  navigation: String!
+  user_journey: String!
+}
+
+type Document {
+  content_id: ID!
+  locale: String!
+  editions: [Edition!]!
+
+  schema_name: SchemaName!
+
+  document_type: DocumentType!
+  document_supertypes: DocumentSupertypes!
+
+  first_published_at: DateTime!
+}
+
+type AccessLimited {
+  users: [Int!]!
+  auth_bypass_ids: [Int!]!
+}
+
+type EditionRequestIds {
+  publishing: String!
+}
+
+type Edition {
+  id: ID!
+  title: String!
+  description: String
+  need_ids: [Int!]!
+  public_updated_at: DateTime!
+  details: JSON!
+  publishing_app: PublishingApp!
+  rendering_app: RenderingApp!
+  links: JSON
+  expanded_links: JSON
+  access_limited: AccessLimited
+  phase: String!
+  analytics_identifier: String!
+  payload_version: Int!
+
+  request_ids: EditionRequestIds!
+}
+
+type Redirect {
+  target: String!
+}
+
+type WithdrawnNotice {
+  explanation: String!
+  date: DateTime!
+}
+
+type Gone {
+  withdrawn_notice: WithdrawnNotice!
+}
+
+type Query {
+  path(path: String!): Path
+}
+
+query ContentByPath($path: String!) {
+  path(path: $path) {
+    resource
+  }
+}
