@@ -45,7 +45,7 @@ paths:
         404:
           description: No content with the ID specified.
 
-  '{base_path}':
+  /lookup/{base_path}:
     get:
       summary: Get a piece of content by base path.
       description: Returns a single piece of content for a base path.
