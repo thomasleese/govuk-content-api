@@ -285,6 +285,7 @@ paths:
 definitions:
   Content:
     required:
+      - url
       - id
       - base_path
       - routes
@@ -292,6 +293,8 @@ definitions:
       - start_date
       - end_date
     properties:
+      url:
+        type: string
       id:
         type: integer
       base_path:
@@ -335,6 +338,7 @@ definitions:
 
   Document:
     required:
+      - url
       - id
       - content_id
       - locale
@@ -342,7 +346,11 @@ definitions:
       - document_type
       - document_supertypes
       - first_published_at
+      - history_url
+      - editions_url
     properties:
+      url:
+        type: string
       id:
         type: integer
       content_id:
@@ -371,16 +379,23 @@ definitions:
       first_published_at:
         type: string
         format: date-time
+      history_url:
+        type: string
+      editions_url:
+        type: string
 
   ChangeNote:
     required:
       - public_timestamp
       - note
+      - edition_url
     properties:
       public_timestamp:
         type: string
         format: date-time
       note:
+        type: string
+      edition_url:
         type: string
 
   History:
@@ -394,6 +409,7 @@ definitions:
 
   Edition:
     required:
+      - url
       - id
       - document
       - title
@@ -411,6 +427,8 @@ definitions:
       - payload_version
       - request_ids
     properties:
+      url:
+        type: string
       id:
         type: integer
       document:
@@ -469,9 +487,12 @@ definitions:
 
   Redirect:
     required:
+      - url
       - id
       - destination
     properties:
+      url:
+        type: string
       id:
         type: integer
       destination:
@@ -479,8 +500,14 @@ definitions:
 
   Gone:
     required:
+      - url
+      - id
       - withdrawn_notice
     properties:
+      url:
+        type: string
+      id:
+        type: integer
       withdrawn_notice:
         required:
           - explanation
@@ -494,9 +521,12 @@ definitions:
 
   # Application:
   #   required:
+  #     - url
   #     - id
   #     - name
   #   properties:
+  #     url:
+  #       type: string
   #     id:
   #       type: integer
   #     name:
