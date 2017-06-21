@@ -82,6 +82,20 @@ paths:
         404:
           description: No document with the ID specified.
 
+  /document/{id}/history:
+    get:
+      summary: Get the history of a document by ID.
+      description: Returns history for a single document.
+      parameters:
+        - $ref: '#/parameters/id'
+      responses:
+        200:
+          description: Successful operation.
+          schema:
+            $ref: '#/definitions/History'
+        404:
+          description: No document with the ID specified.
+
   /document/{id}/editions:
     get:
       summary: Get all the editions by document ID.
@@ -134,6 +148,21 @@ paths:
             $ref: '#/definitions/Document'
         404:
           description: No document with the content ID and locale specified.
+
+  /document/{content_id}/{locale}/history:
+    get:
+      summary: Get the history of a document by content ID and locale.
+      description: Returns history for a single document.
+      parameters:
+        - $ref: '#/parameters/content_id'
+        - $ref: '#/parameters/locale'
+      responses:
+        200:
+          description: Successful operation.
+          schema:
+            $ref: '#/definitions/History'
+        404:
+          description: No document with the ID specified.
 
   /document/{content_id}/{locale}/editions:
     get:
@@ -342,6 +371,26 @@ definitions:
       first_published_at:
         type: string
         format: date-time
+
+  ChangeNote:
+    required:
+      - public_timestamp
+      - note
+    properties:
+      public_timestamp:
+        type: string
+        format: date-time
+      note:
+        type: string
+
+  History:
+    required:
+      - history
+    properties:
+      history:
+        type: array
+        items:
+          $ref: '#/definitions/ChangeNote'
 
   Edition:
     required:
